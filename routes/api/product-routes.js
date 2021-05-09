@@ -17,8 +17,12 @@ router.get('/', (req, res) => {
     include: [
       {
         model: Category,
-        attributes: ['category_name']
-      }
+        attributes: ['id', 'category_name']
+      },
+      {
+        model: Tag,
+        attributes: ['id', 'tag_name']
+      },
     ]
   }).then(dbProductData => res.json(dbProductData))
   .catch(err => {
@@ -45,6 +49,10 @@ router.get('/:id', (req, res) => {
       {
         model: Category,
         attributes: ['category_name']
+      },
+      {
+        model: Tag,
+        attributes: ['id', 'tag_name']
       }
     ]
   })
@@ -75,6 +83,7 @@ router.post('/', (req, res) => {
     product_name: req.body.product_name,
     price: req.body.price,
     stock: req.body.stock,
+    tagIds: [req.body.tagIds]
   })
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
